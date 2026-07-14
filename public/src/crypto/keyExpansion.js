@@ -1,5 +1,0 @@
-import { RCON } from './constants.js';
-import { SubWord } from './subNibble.js';
-import { hex } from './logger.js';
-export const RotWord = word => ((word & 0xF) << 4) | (word >> 4);
-export function KeyExpansion(key) { const w=[key>>8,key&0xFF]; const steps=[]; for(let round=0;round<2;round++){ const rot=RotWord(w[round*2+1]), sub=SubWord(rot), temp=sub^RCON[round]; const next=w[round*2]^temp; const last=w[round*2+1]^next; w.push(next,last); steps.push({round:round+1, words:[w[round*2],w[round*2+1],next,last], rot,sub,rcon:RCON[round], calculation:[`RotWord(w${round*2+1}): ${hex(w[round*2+1],2)} → ${hex(rot,2)}`,`SubWord: ${hex(rot,2)} → ${hex(sub,2)}`,`${hex(sub,2)} XOR RCON${round+1} (${hex(RCON[round],2)}) = ${hex(temp,2)}`,`w${round*2} (${hex(w[round*2],2)}) XOR ${hex(temp,2)} = w${round*2+2} (${hex(next,2)})`,`w${round*2+1} (${hex(w[round*2+1],2)}) XOR w${round*2+2} (${hex(next,2)}) = w${round*2+3} (${hex(last,2)})`] }); } const keys=[w[0]<<8|w[1],w[2]<<8|w[3],w[4]<<8|w[5]]; return {words:w,keys,steps}; }
