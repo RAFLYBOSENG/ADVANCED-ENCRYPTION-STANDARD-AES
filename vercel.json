@@ -5,20 +5,34 @@
   "env": {
     "NODE_ENV": "production"
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(?!.*\\..*).*",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/index.html",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=3600, s-maxage=3600"
-        },
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/src/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
         {
           "key": "X-Content-Type-Options",
           "value": "nosniff"
