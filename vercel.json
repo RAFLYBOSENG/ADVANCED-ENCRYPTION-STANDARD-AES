@@ -1,18 +1,4 @@
 {
   "buildCommand": "exit 0",
-  "outputDirectory": ".",
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "redirects": [
-    {
-      "source": "/favicon.ico",
-      "destination": "/index.html",
-      "statusCode": 307
-    },
-    {
-      "source": "/favicon.png",
-      "destination": "/index.html",
-      "statusCode": 307
-    }
-  ]
+  "outputDirectory": "public"
 }
