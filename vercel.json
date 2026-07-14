@@ -1,16 +1,18 @@
 {
   "buildCommand": "exit 0",
   "outputDirectory": ".",
-  "framework": null,
-  "functions": {
-    "src/**/*.js": {
-      "runtime": null
-    }
-  },
-  "rewrites": [
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/favicon.ico",
+      "destination": "/index.html",
+      "statusCode": 307
+    },
+    {
+      "source": "/favicon.png",
+      "destination": "/index.html",
+      "statusCode": 307
     }
   ]
 }
