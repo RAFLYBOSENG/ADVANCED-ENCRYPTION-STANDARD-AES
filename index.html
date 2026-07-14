@@ -1,13 +1,15 @@
 <!doctype html>
-<html lang="id">
+<html lang="id" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4f46e5" />
     <title>S-AES Lab | Simulator</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <link rel="stylesheet" href="./src/styles/main.css" />
   </head>
   <body>
-    <header class="hero"><div><p class="eyebrow">KRIPTOGRAFI · PEMBELAJARAN INTERAKTIF</p><h1>S-AES Lab</h1><p>Simulasi <i>Simplified Advanced Encryption Standard</i> 16-bit dengan jejak perhitungan lengkap.</p></div><span class="badge">GF(2⁴) · x⁴ + x + 1</span></header>
+    <header class="hero"><div><p class="eyebrow">KRIPTOGRAFI · PEMBELAJARAN INTERAKTIF</p><h1>S-AES Lab</h1><p>Simulasi <i>Simplified Advanced Encryption Standard</i> 16-bit dengan jejak perhitungan lengkap.</p></div><div class="header-actions"><span class="badge">GF(2⁴) · x⁴ + x + 1</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle Dark/Light Mode">🌙</button></div></header>
     <main class="layout">
       <section class="workspace">
         <article class="card input-card"><div class="card-title"><span class="icon">⌁</span><div><h2>Konfigurasi</h2><p>Masukkan blok data dan kunci 16-bit dalam biner.</p></div></div>

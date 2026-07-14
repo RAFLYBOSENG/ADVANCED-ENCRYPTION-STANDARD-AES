@@ -1,4 +1,31 @@
 import { SBOX, INV_SBOX } from './crypto/constants.js'; import { Encrypt } from './crypto/encrypt.js'; import { Decrypt } from './crypto/decrypt.js'; import { bin, hex, stateBinary, stateHex } from './crypto/logger.js';
+
+// Theme toggle functionality
+const initTheme = () => {
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  const htmlElement = document.documentElement;
+  htmlElement.setAttribute('data-theme', savedTheme);
+  updateThemeButton(savedTheme);
+};
+
+const updateThemeButton = (theme) => {
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+};
+
+const toggleTheme = () => {
+  const htmlElement = document.documentElement;
+  const currentTheme = htmlElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  htmlElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  updateThemeButton(newTheme);
+};
+
+// Initialize theme on load
+initTheme();
+document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+
 const $=s=>document.querySelector(s); const matrix=m=>`<div class="state">${m.flat().map(n=>`<b>${hex(n)}</b>`).join('')}</div>`;
 function ref(values){return `<div class="lookup"><span>${[...Array(16).keys()].map(hex).join(' ')}</span><code>${values.map(hex).join(' ')}</code></div>`} $('#sbox').innerHTML=ref(SBOX);$('#inv-sbox').innerHTML=ref(INV_SBOX);
 function render(result,mode){ $('#result').hidden=false;const out=result.output;$('#result-mode').textContent=mode==='encrypt'?'HASIL ENKRIPSI':'HASIL DEKRIPSI';$('#output-hex').textContent=stateHex(out);$('#output-hex-small').textContent='0x'+stateHex(out);$('#output-binary').textContent=stateBinary(out);$('#output-matrix').innerHTML=matrix([[out[0],out[2]],[out[1],out[3]]]);$('#keys').innerHTML=result.expansion.keys.map((k,i)=>`<div><span>K${i}</span><code>${bin(k,16)}</code><b>${hex(k,4)}</b></div>`).join('');const keySteps=result.expansion.steps.map(s=>`<details><summary><span>Key Expansion · Round ${s.round}</span><em>w${(s.round-1)*2+2}, w${(s.round-1)*2+3}</em></summary><div class="detail"><p>${s.calculation.join('<br>')}</p><div class="words">${s.words.map((w,i)=>`<code>w${(s.round-1)*2+i} = ${hex(w,2)}</code>`).join('')}</div></div></details>`).join(''); const trans=result.steps.map(s=>`<details><summary><span>${s.step} · ${s.title}</span><em>${s.before} → ${s.after}</em></summary><div class="detail"><p>${s.description}</p><div class="transition"><div><small>Sebelum</small>${matrix(s.matrixBefore)}</div><span>→</span><div><small>Sesudah</small>${matrix(s.matrixAfter)}</div></div>${s.calculation.length?`<div class="calculation">${s.calculation.map(x=>`<p>${x}</p>`).join('')}</div>`:''}</div></details>`).join('');$('#steps').innerHTML=`<h3>Ekspansi Kunci</h3>${keySteps}<h3>Transformasi ${mode==='encrypt'?'Enkripsi':'Dekripsi'}</h3>${trans}`; $('#result').scrollIntoView({behavior:'smooth',block:'start'});}
